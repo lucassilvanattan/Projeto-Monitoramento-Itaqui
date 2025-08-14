@@ -1,0 +1,20 @@
+[
+  { "name": "IMPRESSORA ADMINISTRATIVO", "host": "10.30.20.32" },
+  { "name": "IMPRESSORA OPERAÇÃO", "host": "10.30.20.36" },
+  { "name": "IMPRESSORA MANUTENÇÃO", "host": "10.30.20.39" },
+  { "name": "SWITCH CORE_CPD - TGL1", "host": "10.30.2.1" },
+  { "name": "SWITCH.10 CPD - TGL1", "host": "10.30.2.10" },
+  { "name": "SWITCH.11 CPD - TGL1", "host": "10.30.2.11" },
+  { "name": "SWITCH CPD - TGL3", "host": "10.30.2.12" },
+  { "name": "SWITCH  Portaria - TGL1", "host": "10.30.2.13" },
+  { "name": "SWITCH  CPD - TGL2", "host": "10.30.2.14" },
+  { "name": "SWITCH CPD - TGL2", "host": "10.30.2.15" },
+  { "name": "SWITCH Portaria Saída - TGL2", "host": "10.30.2.16" },
+  { "name": "SWITCH Portaria Entrada - TGL2", "host": "10.30.2.17" },
+  { "name": "ESTAÇÃO GAUTOMAÇÃO", "host": "10.30.21.3" },
+  { "name": "ESTAÇÃO DE AUTOMAÇÃO Ifix 1 - TGL1", "host": "10.30.35.12" },
+  { "name": "ESTAÇÃO DE AUTOMAÇÃO Ifix 2 - TGL1", "host": "Em Desenvolvimento" },
+  { "name": "ESTAÇÃO DE AUTOMAÇÃO Ifix 3 - TGL2", "host": "10.30.35.14" },
+  { "name": "ESTAÇÃO DE AUTOMAÇÃO Ifix 4 - TGL2", "host": "10.30.35.26" },
+  { "name": "Em Desenvolvimento", "host": "Em Desenvolvimento" }
+]
