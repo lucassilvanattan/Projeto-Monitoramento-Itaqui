@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login • Sistema</title>
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        </svg>
+      </div>
+      <div>
+        <h1>Tela de Login</h1>
+        <div class="muted">Acesse com seu usuário e senha</div>
+      </div>
+    </div>
+
+    <div class="card" role="group" aria-labelledby="title">
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="username">Nome de usuário</label>
+          <div class="control">
+            <input id="username" name="username" type="text" required placeholder="ex.: nome.sobrenome" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="password">Senha</label>
+          <div class="control">
+            <input id="password" name="password" type="password" required placeholder="••••••••" />
+            <button class="toggle-visibility" type="button" id="togglePwd">👁️</button>
+          </div>
+          <div id="caps" class="caps">Caps Lock está ativado</div>
+        </div>
+
+        <div class="row">
+          <label class="checkbox">
+            <input type="checkbox" id="remember" /> Manter conectado
+          </label>
+          <a class="muted" href="#" id="forgot">Esqueceu a senha?</a>
+        </div>
+
+        <button id="submitBtn" class="btn" type="submit" disabled>
+          Entrar <span class="spinner" id="spin"></span>
+        </button>
+
+        <div id="status" class="status"></div>
+      </form>
+
+      <div class="footer">Santos Brasil Participações</strong>.</div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
