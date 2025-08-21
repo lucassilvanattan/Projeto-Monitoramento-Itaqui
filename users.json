@@ -1,7 +1,6 @@
 {
   "users": [
-    { "username": "lucas.nattan",  "password": "12345",  "name": "Visitante" },
+    { "username": "lucas.nattan",  "password": "Gyarados@123",  "name": "Lucas Silva" },
     { "username": "thiago.leite", "password": "protecao", "name": "Thiago Leite" }
-    
   ]
 }
