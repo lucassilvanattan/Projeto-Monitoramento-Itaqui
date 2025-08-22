@@ -24,7 +24,11 @@ function broadcast(data) {
 
 // Inicia o Venom-bot
 venom
-  .create({ session: 'monitoramento' })
+  .create({
+    session: 'monitoramento',
+    headless: true, // roda sem abrir janela
+    args: ['--no-sandbox', '--disable-setuid-sandbox'] // evita erro de sandbox no Chromium
+  })
   .then((client) => {
     console.log('📲 Venom conectado ao WhatsApp!');
     startMonitoring(client);
@@ -83,8 +87,8 @@ function sendAlert(client, host, isOnline) {
   const message = `${statusMsg}: ${host.name} (${host.ip})`;
 
   // Seu número
-  client.sendText('55SEUNUMERO@c.us', message);
+  client.sendText('5598970081919@c.us', message);
 
   // Número do colega
-  client.sendText('55NUMEROCOLEGA@c.us', message);
+  client.sendText('5598982842671@c.us', message);
 }
