@@ -135,7 +135,6 @@ ws.onmessage = (event) => {
     if (targets.length === 0 || targets.length !== results.length) {
 
       targets = results.map(r => ({ name: r.name, host: r.host }));
-
       buildGrid();
 
     }
@@ -159,7 +158,6 @@ ws.onmessage = (event) => {
     });
  
   } catch (err) {
-
     console.error('Erro ao processar mensagem WS:', err);
 
   }

@@ -5,6 +5,7 @@ Antes de utilizar a aplicação, siga os passos abaixo dentro da pasta do projet
 1. Inicialize o projeto Node.js:
 
 bash/cmd
+
 npm init -y
 
 2. Instale as dependências necessárias:

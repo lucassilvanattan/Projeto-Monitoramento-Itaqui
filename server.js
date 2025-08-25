@@ -1,9 +1,9 @@
 const WebSocket = require('ws');
 const ping = require('ping');
 const fs = require('fs');
-const venom = require('venom-bot');
+// const venom = require('venom-bot');
 
-const PORT = 8090;
+const PORT = 8080;
 let targets = JSON.parse(fs.readFileSync('targets.json', 'utf8'));
 let lastStatus = {}; // guarda o status anterior
 
@@ -23,17 +23,13 @@ function broadcast(data) {
 }
 
 // Inicia o Venom-bot
-venom
-  .create({
-    session: 'monitoramento',
-    headless: true, // roda sem abrir janela
-    args: ['--no-sandbox', '--disable-setuid-sandbox'] // evita erro de sandbox no Chromium
-  })
-  .then((client) => {
-    console.log('📲 Venom conectado ao WhatsApp!');
-    startMonitoring(client);
-  })
-  .catch((err) => console.error(err));
+// venom
+//   .create({ session: 'monitoramento' })
+//   .then((client) => {
+//     console.log('📲 Venom conectado ao WhatsApp!');
+//     startMonitoring(client);
+//   })
+//   .catch((err) => console.error(err));
 
 function startMonitoring(client) {
   console.log('🔍 Monitoramento iniciado...');
@@ -46,31 +42,32 @@ function startMonitoring(client) {
 
     // Faz ping em todos os hosts
     const checks = targets.map((host) =>
-      ping.promise.probe(host.ip).then((res) => {
+      ping.promise.probe(host.host).then((res) => {
         const isOnline = res.alive;
-        const previousStatus = lastStatus[host.ip];
+        const previousStatus = lastStatus[host.host];
 
         results.push({
           name: host.name,
-          ip: host.ip,
-          status: isOnline ? 'UP' : 'DOWN',
-          time: res.time,
+          host: host.host,
+          ok: isOnline,     // booleano, não string
+          rtt: res.time,
+          time: new Date().toLocaleTimeString(), 
         });
 
         // Detecta mudança OFFLINE
         if (previousStatus === true && isOnline === false) {
-          console.log(`⚠ ${host.name} (${host.ip}) ficou OFFLINE!`);
+          console.log(`⚠ ${host.name} (${host.host}) ficou OFFLINE!`);
           sendAlert(client, host, false);
         }
 
         // Detecta mudança ONLINE
         if (previousStatus === false && isOnline === true) {
-          console.log(`✅ ${host.name} (${host.ip}) voltou ONLINE!`);
+          console.log(`✅ ${host.name} (${host.host}) voltou ONLINE!`);
           sendAlert(client, host, true);
         }
 
         // Atualiza status
-        lastStatus[host.ip] = isOnline;
+        lastStatus[host.host] = isOnline;
       })
     );
 
@@ -78,17 +75,19 @@ function startMonitoring(client) {
       // Envia atualização para o front-end
       broadcast(results);
     });
-  }, 30000); // 30 segundos
+  }, 3000); // 30 segundos
 }
+
+startMonitoring()
 
 // Função para enviar alerta no WhatsApp
-function sendAlert(client, host, isOnline) {
-  const statusMsg = isOnline ? '✅ voltou ONLINE' : '⚠ ficou OFFLINE';
-  const message = `${statusMsg}: ${host.name} (${host.ip})`;
+// function sendAlert(client, host, isOnline) {
+//   const statusMsg = isOnline ? '✅ voltou ONLINE' : '⚠ ficou OFFLINE';
+//   const message = `${statusMsg}: ${host.name} (${host.ip})`;
 
-  // Seu número
-  client.sendText('5598970081919@c.us', message);
+//   // Seu número
+//   client.sendText('55SEUNUMERO@c.us', message);
 
-  // Número do colega
-  client.sendText('5598982842671@c.us', message);
-}
+//   // Número do colega
+//   client.sendText('55NUMEROCOLEGA@c.us', message);
+// }
