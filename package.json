@@ -13,6 +13,7 @@
   "dependencies": {
     "express": "^5.1.0",
     "ping": "^0.4.4",
+    "venom-bot": "^5.3.0",
     "ws": "^8.18.3"
   }
 }

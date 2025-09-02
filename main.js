@@ -121,48 +121,64 @@ ws.onopen = () => {
 };
  
 ws.onmessage = (event) => {
-
   try {
-
     let results = JSON.parse(event.data);
- 
-    // 1️⃣ Ordena: OFF (ok:false) primeiro
 
+    // Ordena: OFF primeiro
     results.sort((a, b) => a.ok === b.ok ? 0 : a.ok ? 1 : -1);
- 
-    // 2️⃣ Atualiza targets se estiver vazio (ou se quiser reconstruir a grid)
 
-    if (targets.length === 0 || targets.length !== results.length) {
-
+    // Inicializa a grid apenas se estiver vazia
+    if (targets.length === 0) {
       targets = results.map(r => ({ name: r.name, host: r.host }));
       buildGrid();
-
-    }
- 
-    // 3️⃣ Atualiza os blocos na tela
-
-    results.forEach((res, i) => {
-
-      updateBlock(i, {
-
-        ok: res.ok,
-
-        rtt: res.rtt,
-
-        error: res.error,
-
-        time: res.time
-
+    } else {
+      // Adiciona apenas novos hosts que ainda não estão na grid
+      results.forEach((res, i) => {
+        if (i >= targets.length) {
+          // Novo item, adiciona à grid
+          targets.push({ name: res.name, host: res.host });
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.id = 'card-' + i;
+          card.innerHTML = `
+<div>
+  <div class="title-row">
+    <div class="dot" id="dot-${i}" aria-hidden></div>
+    <div>
+      <div class="name" id="name-${i}">${escapeHtml(res.name)}</div>
+      <div class="host" id="host-${i}">${escapeHtml(res.host)}</div>
+    </div>
+  </div>
+</div>
+<div>
+  <div class="meta">
+    <div class="big-status" id="status-${i}">—</div>
+    <div id="rtt-${i}">—</div>
+    <div id="time-${i}"></div>
+  </div>
+</div>`;
+          grid.appendChild(card);
+        }
       });
+    }
 
+    // Atualiza todos os blocos existentes
+    results.forEach((res, i) => {
+      if (i < targets.length) {
+        updateBlock(i, {
+          ok: res.ok,
+          rtt: res.rtt,
+          error: res.error,
+          time: res.time
+        });
+      }
     });
- 
+
   } catch (err) {
     console.error('Erro ao processar mensagem WS:', err);
-
   }
-
 };
+
  
 ws.onclose = () => console.warn('Conexão com servidor fechada');
 

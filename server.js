@@ -1,7 +1,13 @@
 const WebSocket = require('ws');
 const ping = require('ping');
 const fs = require('fs');
-// const venom = require('venom-bot');
+const venom = require('venom-bot');
+
+const venomOptions = {
+  session: 'monitoramento',
+  browserArgs: ['--no-sandbox', '--disable-setuid-sandbox'],
+  executablePath: 'C:\Program Files\Palo Alto Networks\PrismaAccessBrowser\Application\PrismaAccessBrowser.exe'
+};
 
 const PORT = 8080;
 let targets = JSON.parse(fs.readFileSync('targets.json', 'utf8'));
@@ -22,21 +28,25 @@ function broadcast(data) {
   });
 }
 
-// Inicia o Venom-bot
-// venom
-//   .create({ session: 'monitoramento' })
-//   .then((client) => {
-//     console.log('📲 Venom conectado ao WhatsApp!');
-//     startMonitoring(client);
-//   })
-//   .catch((err) => console.error(err));
+venom
+  .create(venomOptions)
+  .then((client) => {
+    console.log('📲 Venom conectado ao WhatsApp!');
+    startMonitoring(client);
+  })
+  .catch((err) => {
+    console.error('Erro no Venom:', err);
+    // Se não conectar, ainda inicia o monitoramento sem WhatsApp
+    startMonitoring(null);
+  });
 
 function startMonitoring(client) {
   console.log('🔍 Monitoramento iniciado...');
 
   setInterval(() => {
     // Recarrega lista de targets (sem precisar reiniciar server.js)
-    targets = JSON.parse(fs.readFileSync('targets.json', 'utf8'));
+  try{  
+  targets = JSON.parse(fs.readFileSync('targets.json', 'utf8'));
 
     const results = [];
 
@@ -75,19 +85,23 @@ function startMonitoring(client) {
       // Envia atualização para o front-end
       broadcast(results);
     });
-  }, 3000); // 30 segundos
+  } catch(Err) {
+    console.log(Err)
+  }
+  }, 10000); // 30 segundos
 }
 
-startMonitoring()
+
 
 // Função para enviar alerta no WhatsApp
-// function sendAlert(client, host, isOnline) {
-//   const statusMsg = isOnline ? '✅ voltou ONLINE' : '⚠ ficou OFFLINE';
-//   const message = `${statusMsg}: ${host.name} (${host.ip})`;
+function sendAlert(client, host, isOnline) {
+  const statusMsg = isOnline ? '✅ voltou ONLINE' : '⚠ ficou OFFLINE';
+  const message = `${statusMsg}: ${host.name} (${host.ip})`;
 
-//   // Seu número
-//   client.sendText('55SEUNUMERO@c.us', message);
+  console.log(`(ALERTA) ${message}`);
+//   Seu número
+  client.sendText('5598982842671@c.us', message);
 
-//   // Número do colega
-//   client.sendText('55NUMEROCOLEGA@c.us', message);
-// }
+  // Número do colega
+  client.sendText('5598970081919@c.us', message);
+}
