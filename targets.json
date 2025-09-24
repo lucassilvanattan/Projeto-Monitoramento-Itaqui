@@ -36,6 +36,4 @@
   { "name": "CONTROLE DE ACESSO BACKBONE TGL3", "host": "10.30.25.24" },
   { "name": "CATRACA ENTRADA TGL2", "host": "10.30.25.25" },
   { "name": "CATRACA SAÍDA TGL2", "host": "10.30.25.26" }
-
-  
 ]
